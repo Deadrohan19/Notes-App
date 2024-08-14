@@ -9,7 +9,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listNotes } from "../../features/notes/notes";
+import { deleteNote, listNotes } from "../../features/notes/notes";
 import Loading from "../../Components/Loader/Loading";
 import ErrorMessage from "../../Components/ErrorMessage";
 import Markdown from "react-markdown";
@@ -39,7 +39,13 @@ const MyNotes = () => {
   const navigate = useNavigate();
   const notesList = useSelector((state) => state.notesList);
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { success } = useSelector((state) => state.createNote);
+  const { success: createSuccess } = useSelector((state) => state.createNote);
+  const { success: updateSuccess } = useSelector((state) => state.updateNote);
+  const {
+    success: deleteSuccess,
+    loading: deleteLoading,
+    error: deleteError,
+  } = useSelector((state) => state.deleteNote);
   const { loading, notes, error } = notesList;
   const [reverseNotes, setReverseNotes] = useState([]);
 
@@ -48,7 +54,14 @@ const MyNotes = () => {
     if (!userInfo) {
       navigate("/");
     }
-  }, [dispatch, navigate, userInfo, success]);
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    createSuccess,
+    updateSuccess,
+    deleteSuccess,
+  ]);
 
   useEffect(() => {
     setReverseNotes([...notes].reverse());
@@ -56,8 +69,15 @@ const MyNotes = () => {
 
   const deleteHandler = (id) => {
     if (window.confirm("are you sure?")) {
-      // delete operation inside
+      dispatch(deleteNote(id));
+      navigate("/mynotes");
     }
+  };
+
+  const dateConvert = (timestamp) => {
+    const tmpDate = new Date(timestamp);
+    const localDate = tmpDate.toLocaleString();
+    return localDate;
   };
 
   return (
@@ -67,8 +87,11 @@ const MyNotes = () => {
           Create New Note
         </Button>
       </Link>
-      {loading && <Loading />}
+      {(loading || deleteLoading) && <Loading />}
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {deleteError && (
+        <ErrorMessage variant="danger">{deleteError}</ErrorMessage>
+      )}
       <Accordion>
         {reverseNotes.map((note) => (
           <Card key={note._id} style={{ margin: 10 }}>
@@ -99,9 +122,7 @@ const MyNotes = () => {
                 <blockquote className="blockquote mb-0">
                   <Markdown>{note.content}</Markdown>
                   <footer className="blockquote-footer">
-                    Created on {note.createdAt.substring(11, 16)}
-                    {", "}
-                    {note.createdAt.substring(0, 10)}
+                    Created on {dateConvert(note.createdAt)}
                   </footer>
                 </blockquote>
               </Card.Body>

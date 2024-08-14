@@ -1,26 +1,42 @@
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import MainScreen from "../MainScreen";
 import ErrorMessage from "../../Components/ErrorMessage";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import * as Showdown from "showdown";
-import ReactMde from "react-mde";
-import "react-mde/lib/styles/css/react-mde-all.css";
 import Loading from "../../Components/Loader/Loading";
-import { createNote } from "../../features/notes/notes";
-import { useNavigate } from "react-router-dom";
+import ReactMde from "react-mde";
+import { useEffect, useState } from "react";
+import Showdown from "showdown";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  deleteNote,
+  getSingleNote,
+  updateNote,
+} from "../../features/notes/notes";
+import "./SingleNote.css";
 
-const CreateNote = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+const SingleNote = () => {
   const [category, setCategory] = useState("");
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
   const [selectedTab, setSelectedTab] = useState("write");
-  const { error, loading, notesInfo } = useSelector(
-    (state) => state.createNote
-  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const { loading: updateLoading, error: updateError } = useSelector(
+    (state) => state.updateNote
+  );
+  const { loading: deleteLoading, error: deleteError } = useSelector(
+    (state) => state.deleteNote
+  );
+
+  const {
+    notesInfo,
+    loading: fetchingLoading,
+    error: fetchingError,
+  } = useSelector((state) => state.getNote);
 
   const converter = new Showdown.Converter({
     tables: true,
@@ -34,24 +50,59 @@ const CreateNote = () => {
     setContent("");
     setCategory("");
   };
+  
+  const dateConvert = (timestamp) => {
+    const tmpDate = new Date(timestamp);
+    const localDate = tmpDate.toLocaleString();
+    return localDate;
+  };
 
-  const submitHandler = (e) => {
+  useEffect(() => {
+    setTitle(notesInfo.title);
+    setCategory(notesInfo.category);
+    setContent(notesInfo.content);
+    setDate(dateConvert(notesInfo.updatedAt));
+  }, [notesInfo]);
+
+  useEffect(() => {
+    dispatch(getSingleNote(id));
+  }, [dispatch, id]);
+
+  const updateHandler = (e) => {
     e.preventDefault();
     if (!title || !content) return;
-    dispatch(createNote(title, content, category));
-    console.log(notesInfo);
+
+    dispatch(updateNote(id, title, content, category));
+
     resetHandler();
     navigate("/mynotes");
   };
 
+  const deleteHandler = (e) => {
+    e.preventDefault();
+    if (window.confirm("are you sure?")) {
+      dispatch(deleteNote(id));
+      resetHandler();
+      navigate("/mynotes");
+    }
+  };
+
   return (
-    <MainScreen title="Create Note">
+    <MainScreen title="Edit Note">
       <Card>
-        <Card.Header>Create a new Note</Card.Header>
+        <Card.Header>Edit Note</Card.Header>
         <Card.Body>
-          <Form onSubmit={submitHandler}>
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-            {loading && <Loading />}
+          <Form onSubmit={updateHandler}>
+            {updateError && (
+              <ErrorMessage variant="danger">{updateError}</ErrorMessage>
+            )}
+            {fetchingError && (
+              <ErrorMessage variant="danger">{fetchingError}</ErrorMessage>
+            )}
+            {deleteError && (
+              <ErrorMessage variant="danger">{deleteError}</ErrorMessage>
+            )}
+            {(fetchingLoading || updateLoading || deleteLoading) && <Loading />}
             <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -101,20 +152,19 @@ const CreateNote = () => {
               />
             </Form.Group>
             <Button variant="primary" type="submit">
-              Create Note
+              Save
             </Button>
-            <Button variant="danger" onClick={resetHandler} className="mx-2">
-              Reset
+            <Button variant="danger" className="mx-2" onClick={deleteHandler}>
+              Delete
             </Button>
           </Form>
         </Card.Body>
-
-        <Card.Footer className="text-muted">
-          Creating on - {new Date().toLocaleDateString()}
+        <Card.Footer className="blockquote-footer">
+          Updated on - {date}
         </Card.Footer>
       </Card>
     </MainScreen>
   );
 };
 
-export default CreateNote;
+export default SingleNote;

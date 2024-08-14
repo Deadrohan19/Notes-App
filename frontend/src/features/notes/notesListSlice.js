@@ -10,20 +10,21 @@ const notesListSlice = createSlice({
   name: "notesList",
   initialState,
   reducers: {
-    notesReq(state) {
+    listNotesReq(state) {
       state.loading = true;
     },
-    notesSuccess(state, action) {
+    listNotesSuccess(state, action) {
       state.loading = false;
       state.notes = action.payload;
     },
-    notesFail(state, action) {
+    listNotesFail(state, action) {
       state.loading = false;
       state.error = action.payload;
     },
   },
 });
 
-export const { notesReq, notesSuccess, notesFail } = notesListSlice.actions;
+export const { listNotesReq, listNotesSuccess, listNotesFail } =
+  notesListSlice.actions;
 
 export default notesListSlice.reducer;

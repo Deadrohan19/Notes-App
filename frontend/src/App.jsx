@@ -7,6 +7,7 @@ import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import CreateNote from "./screens/CreateNote/CreateNote";
 import MyNotes from "./screens/MyNotes/MyNotes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SingleNote from "./screens/SingleNote/SingleNote";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/createnote" element={<CreateNote />} />
         <Route path="/mynotes" Component={MyNotes} />
+        <Route path="/mynotes/:id" element={<SingleNote />} />
       </Routes>
 
       <Footer />
