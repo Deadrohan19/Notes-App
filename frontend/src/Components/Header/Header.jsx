@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../features/login/userLoginSlice";
 
-function Header({setSearch}) {
+function Header({ setSearch }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const tmp = localStorage.getItem("userInfo");
@@ -26,37 +26,53 @@ function Header({setSearch}) {
       bg="primary"
       variant="dark"
       expand="lg"
-      className="bg-body-tertiary"
+      className="bg-body-tertiary justify-content-between"
     >
       <Container>
         <Navbar.Brand>
           <Link to="/">Note Zipper</Link>
         </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="m-auto">
-            <Form inline>
-              <FormControl
-                type="text"
-                placeholder="search"
-                className="mr-sm-2"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </Form>
-          </Nav>
-          <Nav>
-            <Nav.Link>
-              <Link to="/mynotes">My Notes</Link>
-            </Nav.Link>
-            <NavDropdown
-              title={userInfo.name || "Sign In"}
-              id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item href="#profile">My Profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+          {userInfo ? (
+            <Nav className="m-auto">
+              <Form inline>
+                <FormControl
+                  type="text"
+                  placeholder="search"
+                  className="mr-sm-2"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </Form>
+            </Nav>
+          ) : (
+            <div className="m-auto"></div>
+          )}
+
+          {userInfo ? (
+            <Nav>
+              <Nav.Link>
+                <Link to="/mynotes">My Notes</Link>
+              </Nav.Link>
+              <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                <NavDropdown.Item>
+                  <Link to="/profile">My Profile</Link>
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          ) : (
+            <Nav className="d-flex">
+              <Nav.Link>
+                <Link to="/login">Sign in</Link>
+              </Nav.Link>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
