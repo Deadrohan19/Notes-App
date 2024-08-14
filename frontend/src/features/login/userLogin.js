@@ -23,7 +23,6 @@ export const userLogin = (email, password) => async (dispatch) => {
       },
       config
     );
-    console.log(data);
     localStorage.setItem("userInfo", JSON.stringify(data));
 
     dispatch(userLoginSuccess(data));

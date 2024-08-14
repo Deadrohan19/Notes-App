@@ -7,11 +7,10 @@ import {
   Navbar,
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../features/login/userLoginSlice";
 
-function Header() {
+function Header({setSearch}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const tmp = localStorage.getItem("userInfo");
@@ -41,6 +40,7 @@ function Header() {
                 type="text"
                 placeholder="search"
                 className="mr-sm-2"
+                onChange={(e) => setSearch(e.target.value)}
               />
             </Form>
           </Nav>

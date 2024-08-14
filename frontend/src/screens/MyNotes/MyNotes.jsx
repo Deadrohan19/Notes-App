@@ -34,7 +34,7 @@ function CustomToggle({ children, eventKey }) {
   );
 }
 
-const MyNotes = () => {
+const MyNotes = ({ search }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const notesList = useSelector((state) => state.notesList);
@@ -64,8 +64,14 @@ const MyNotes = () => {
   ]);
 
   useEffect(() => {
-    setReverseNotes([...notes].reverse());
-  }, [notes]);
+    setReverseNotes(
+      [...notes]
+        .reverse()
+        .filter((filteredNote) =>
+          filteredNote.title.toLowerCase().includes(search.toLowerCase())
+        )
+    );
+  }, [notes, search]);
 
   const deleteHandler = (id) => {
     if (window.confirm("are you sure?")) {
