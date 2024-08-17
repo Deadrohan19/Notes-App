@@ -13,6 +13,10 @@ import {
   updateNote,
 } from "../../features/notes/notes";
 import "./SingleNote.css";
+import {
+  updateNoteFail,
+  updateNoteReset,
+} from "../../features/notes/updateNoteSlice";
 
 const SingleNote = () => {
   const [category, setCategory] = useState("");
@@ -49,8 +53,9 @@ const SingleNote = () => {
     setTitle("");
     setContent("");
     setCategory("");
+    dispatch(updateNoteReset());
   };
-  
+
   const dateConvert = (timestamp) => {
     const tmpDate = new Date(timestamp);
     const localDate = tmpDate.toLocaleString();
@@ -70,7 +75,10 @@ const SingleNote = () => {
 
   const updateHandler = (e) => {
     e.preventDefault();
-    if (!title || !content) return;
+    if (!title || !content) {
+      dispatch(updateNoteFail("Title and Content can't be empty!"));
+      return;
+    }
 
     dispatch(updateNote(id, title, content, category));
 

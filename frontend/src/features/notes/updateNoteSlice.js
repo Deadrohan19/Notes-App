@@ -23,9 +23,20 @@ const updateNoteSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    updateNoteReset(state) {
+      state.loading = false;
+      state.error = null;
+      state.success = false;
+      state.notesInfo = {};
+    },
   },
 });
 
-export const {updateNoteFail, updateNoteReq, updateNoteSuccess} = updateNoteSlice.actions;
+export const {
+  updateNoteFail,
+  updateNoteReq,
+  updateNoteSuccess,
+  updateNoteReset,
+} = updateNoteSlice.actions;
 
 export default updateNoteSlice.reducer;

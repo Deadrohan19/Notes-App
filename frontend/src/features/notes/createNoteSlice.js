@@ -23,10 +23,20 @@ const createNoteSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    createNoteReset(state) {
+      state.loading = false;
+      state.error = null;
+      state.success = false;
+      state.notesInfo = {};
+    },
   },
 });
 
-export const { createNoteFail, createNoteSuccess, createNoteReq } =
-  createNoteSlice.actions;
+export const {
+  createNoteFail,
+  createNoteSuccess,
+  createNoteReq,
+  createNoteReset,
+} = createNoteSlice.actions;
 
 export default createNoteSlice.reducer;

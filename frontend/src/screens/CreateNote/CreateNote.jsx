@@ -9,6 +9,10 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 import Loading from "../../Components/Loader/Loading";
 import { createNote } from "../../features/notes/notes";
 import { useNavigate } from "react-router-dom";
+import {
+  createNoteFail,
+  createNoteReset,
+} from "../../features/notes/createNoteSlice";
 
 const CreateNote = () => {
   const [title, setTitle] = useState("");
@@ -33,11 +37,15 @@ const CreateNote = () => {
     setTitle("");
     setContent("");
     setCategory("");
+    dispatch(createNoteReset());
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!title || !content) return;
+    if (!title || !content) {
+      dispatch(createNoteFail("Title and Content can't be empty!"));
+      return;
+    }
     dispatch(createNote(title, content, category));
     console.log(notesInfo);
     resetHandler();
