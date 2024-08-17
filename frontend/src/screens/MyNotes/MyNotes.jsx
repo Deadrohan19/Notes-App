@@ -67,8 +67,10 @@ const MyNotes = ({ search }) => {
     setReverseNotes(
       [...notes]
         .reverse()
-        .filter((filteredNote) =>
-          filteredNote.title.toLowerCase().includes(search.toLowerCase())
+        .filter(
+          (filteredNote) =>
+            filteredNote.title.toLowerCase().includes(search.toLowerCase()) ||
+            filteredNote.content.toLowerCase().includes(search.toLowerCase())
         )
     );
   }, [notes, search]);
