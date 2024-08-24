@@ -8,7 +8,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { userLogout } from "../../features/login/userLoginSlice";
+import { userLogout } from "../../features/user/userLoginSlice";
 
 function Header({ setSearch }) {
   const navigate = useNavigate();

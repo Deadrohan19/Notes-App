@@ -5,7 +5,8 @@ import Loading from "../../Components/Loader/Loading";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import userRegister from "../../features/register/userRegister";
+import { userRegister } from "../../features/user/user";
+import { userRegisterFail } from "../../features/user/userRegisterSlice";
 
 //TODO: check for user exist before image upload
 
@@ -29,7 +30,9 @@ const RegisterScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(userRegister(name, email, password, confirmPassword, file));
+    if (confirmPassword !== password)
+      dispatch(userRegisterFail("Passwords do not match!"));
+    else dispatch(userRegister({ name, email, password }, file));
   };
 
   return (

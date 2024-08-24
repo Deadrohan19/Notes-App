@@ -6,7 +6,7 @@ import "./LoginScreen.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import userLogin from "../../features/login/userLogin";
+import { userLogin } from "../../features/user/user";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
