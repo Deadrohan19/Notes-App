@@ -12,9 +12,14 @@ connectDB();
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://notes-6i5u4d446-rohans-projects-55017a45.vercel.app", // Replace with your frontend URL
+  origin: [
+    "https://notes-6i5u4d446-rohans-projects-55017a45.vercel.app",
+    "https://notes-app-ten-hazel.vercel.app",
+    "https://notes-app-git-main-rohans-projects-55017a45.vercel.app",
+  ], // Replace with your frontend URL
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"], // Add 'Authorization' here
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
