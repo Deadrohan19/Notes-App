@@ -19,6 +19,7 @@ import {
 } from "./userUpdateSlice";
 
 import axios from "axios";
+const url = import.meta.env.VITE_URL;
 
 const uploadImage = async (file) => {
   if (
@@ -73,11 +74,7 @@ export const userRegister = (user, file) => async (dispatch) => {
 
     if (res.status == 200) {
       user.pic = res.url;
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users",
-        user,
-        config
-      );
+      const { data } = await axios.post(`${url}/api/users`, user, config);
 
       localStorage.setItem("userInfo", JSON.stringify(data));
       dispatch(userRegisterSuccess(data));
@@ -105,7 +102,7 @@ export const userLogin = (email, password) => async (dispatch) => {
     dispatch(userLoginReq());
 
     const { data } = await axios.post(
-      "http://localhost:5000/api/users/login",
+      `${url}/api/users/login`,
       {
         email,
         password,
@@ -147,7 +144,7 @@ export const userUpdate = (user, file) => async (dispatch, getState) => {
     if (res.status === 200) {
       user.pic = res.url;
       const { data } = await axios.post(
-        "http://localhost:5000/api/users/profile",
+        `${url}/api/users/profile`,
         user,
         config
       );

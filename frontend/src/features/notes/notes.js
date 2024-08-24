@@ -21,6 +21,8 @@ import {
   deleteNoteSuccess,
 } from "./deleteNoteSlice";
 
+const url = import.meta.env.VITE_URL;
+
 export const listNotes = () => async (dispatch, getState) => {
   try {
     dispatch(listNotesReq());
@@ -36,7 +38,7 @@ export const listNotes = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("http://localhost:5000/api/notes", config);
+    const { data } = await axios.get(`${url}/api/notes`, config);
 
     dispatch(listNotesSuccess(data));
   } catch (error) {
@@ -69,7 +71,7 @@ export const createNote =
         payload = { title, content };
       }
       const { data } = await axios.post(
-        "http://localhost:5000/api/notes/create",
+        `${url}/api/notes/create`,
         payload,
         config
       );
@@ -98,10 +100,7 @@ export const getSingleNote = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `http://localhost:5000/api/notes/${id}`,
-      config
-    );
+    const { data } = await axios.get(`${url}/api/notes/${id}`, config);
     dispatch(getNoteSuccess(data));
   } catch (error) {
     const msg =
@@ -134,7 +133,7 @@ export const updateNote =
       }
 
       const { data } = await axios.put(
-        `http://localhost:5000/api/notes/${id}`,
+        `${url}/api/notes/${id}`,
         payload,
         config
       );
@@ -163,7 +162,7 @@ export const deleteNote = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:5000/api/notes/${id}`, config);
+    await axios.delete(`${url}/api/notes/${id}`, config);
     dispatch(deleteNoteSuccess());
   } catch (error) {
     const msg =
