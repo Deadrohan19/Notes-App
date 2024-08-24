@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userLoginReducer from "./features/login/userLoginSlice";
-import userRegisterReducer from "./features/register/userRegisterSlice";
+import userLoginReducer from "./features/user/userLoginSlice";
+import userRegisterReducer from "./features/user/userRegisterSlice";
+import userUpdateReducer from "./features/user/userUpdateSlice";
 import notesListReducer from "./features/notes/notesListSlice";
 import createNoteReducer from "./features/notes/createNoteSlice";
 import getNoteReducer from "./features/notes/getNoteSlice";
@@ -10,6 +11,7 @@ import deleteNoteReducer from "./features/notes/deleteNoteSlice";
 const reducer = {
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userUpdate: userUpdateReducer,
   notesList: notesListReducer,
   createNote: createNoteReducer,
   updateNote: updateNoteReducer,
