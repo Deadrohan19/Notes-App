@@ -12,7 +12,7 @@ connectDB();
 app.use(express.json());
 
 const corsOptions = {
-  origin: "http://localhost:5173", // Replace with your frontend URL
+  origin: "https://notes-6i5u4d446-rohans-projects-55017a45.vercel.app", // Replace with your frontend URL
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"], // Add 'Authorization' here
 };
