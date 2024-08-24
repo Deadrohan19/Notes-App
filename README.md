@@ -63,3 +63,8 @@ This is a simple Notes application built using the MERN stack (MongoDB, Express.
 ![My Notes](images/myNotes.png "My Notes")
 ![Create Note](images/createNote.png "Create Note")
 ![Edit Profile](images/editProfile.png "Edit Profile")
+
+## Deployment
+
+- **Frontend**: on render
+- **Backend**: on vercel
