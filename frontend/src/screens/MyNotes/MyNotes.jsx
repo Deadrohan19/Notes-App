@@ -70,7 +70,8 @@ const MyNotes = ({ search }) => {
         .filter(
           (filteredNote) =>
             filteredNote.title.toLowerCase().includes(search.toLowerCase()) ||
-            filteredNote.content.toLowerCase().includes(search.toLowerCase())
+            filteredNote.content.toLowerCase().includes(search.toLowerCase()) ||
+            filteredNote.category.toLowerCase().includes(search.toLowerCase())
         )
     );
   }, [notes, search]);
