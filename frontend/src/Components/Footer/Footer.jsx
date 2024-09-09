@@ -12,7 +12,7 @@ function Footer() {
       }}
     >
       <Container className="text-center py-3">
-        Copyright {new Date().getFullYear}&copy; Rohan Jaiswal
+        Copyright &copy; {new Date().getFullYear()}
       </Container>
     </footer>
   );
