@@ -66,5 +66,5 @@ This is a simple Notes application built using the MERN stack (MongoDB, Express.
 
 ## Deployment
 
-- **Frontend**: on render
-- **Backend**: on vercel
+- **Backend**: on render
+- **Frontend**: on vercel
